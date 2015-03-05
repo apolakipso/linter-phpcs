@@ -28,19 +28,23 @@ class LinterPhpcs extends Linter
     atom.config.observe 'linter-phpcs.enableWarning', =>
       @updateCommand()
 
+    atom.config.observe 'linter-phpcs.tabWidth', =>
+      @updateCommand()
 
   destroy: ->
     atom.config.unobserve 'linter-phpcs.phpcsExecutablePath'
     atom.config.unobserve 'linter-phpcs.standard'
     atom.config.unobserve 'linter-phpcs.enableWarning'
     atom.config.unobserve 'linter-phpcs.ignore'
+    atom.config.unobserve 'linter-phpcs.tabWidth'
 
    updateCommand: ->
     standard = atom.config.get 'linter-phpcs.standard'
     ignore = atom.config.get 'linter-phpcs.ignore'
     warning = atom.config.get 'linter-phpcs.enableWarning'
+    tabWidth = atom.config.get 'linter-phpcs.tabWidth'
 
-    @cmd = "phpcs --report=checkstyle --warning-severity=#{warning}"
+    @cmd = "phpcs --report=checkstyle --tab-width=#{tabWidth} --warning-severity=#{warning}"
 
     if standard
         @cmd += " --standard=#{standard}"
